@@ -1,0 +1,227 @@
+<!--
+  PROG2005 Mobile Systems Programming
+  Part 2: Angular Inventory Management System
+  Search Page Template
+  Author: Zihuo Huo
+  Student ID: 24832232
+  GitHub Username: Hzh050514
+-->
+
+<div class="search-page">
+  <!-- Page Header -->
+  <div class="page-header">
+    <h1><i class="fas fa-search"></i> Search Products</h1>
+    <p class="page-description">Use name search or advanced filtering to find inventory products.</p>
+  </div>
+
+  <!-- Search Form -->
+  <section class="search-form-section card">
+    <h2 class="section-title">
+      <i class="fas fa-filter"></i> Search & Filter
+    </h2>
+    
+    <form [formGroup]="searchForm" (ngSubmit)="onSearch()">
+      <div class="form-grid">
+        <!-- Product Name Search -->
+        <div class="form-group">
+          <label for="searchName" class="form-label">Product Name</label>
+          <input
+            type="text"
+            id="searchName"
+            formControlName="name"
+            class="form-control"
+            placeholder="Enter product name (fuzzy search supported)"
+          >
+        </div>
+
+        <!-- Category Filter -->
+        <div class="form-group">
+          <label for="searchCategory" class="form-label">Category</label>
+          <select
+            id="searchCategory"
+            formControlName="category"
+            class="form-control"
+          >
+            <option value="">All Categories</option>
+            <option *ngFor="let category of categories" [value]="category.value">
+              {{ category.label }}
+            </option>
+          </select>
+        </div>
+
+        <!-- Price Range -->
+        <div class="form-group">
+          <label for="searchMinPrice" class="form-label">Minimum Price</label>
+          <input
+            type="number"
+            id="searchMinPrice"
+            formControlName="minPrice"
+            class="form-control"
+            min="0"
+            step="0.01"
+            placeholder="Min price"
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="searchMaxPrice" class="form-label">Maximum Price</label>
+          <input
+            type="number"
+            id="searchMaxPrice"
+            formControlName="maxPrice"
+            class="form-control"
+            min="0"
+            step="0.01"
+            placeholder="Max price"
+          >
+        </div>
+
+        <!-- Stock Status -->
+        <div class="form-group">
+          <label for="searchStockStatus" class="form-label">Stock Status</label>
+          <select
+            id="searchStockStatus"
+            formControlName="stockStatus"
+            class="form-control"
+          >
+            <option value="">All Status</option>
+            <option *ngFor="let status of stockStatuses" [value]="status.value">
+              {{ status.label }}
+            </option>
+          </select>
+        </div>
+
+        <!-- Hot Status -->
+        <div class="form-group">
+          <label for="searchIsHot" class="form-label">Hot Products</label>
+          <select
+            id="searchIsHot"
+            formControlName="isHot"
+            class="form-control"
+          >
+            <option value="">All</option>
+            <option *ngFor="let status of hotStatuses" [value]="status.value">
+              {{ status.label }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Form Buttons -->
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary" [disabled]="isSearching">
+          <i class="fas fa-search"></i>
+          {{ isSearching ? 'Searching...' : 'Search Products' }}
+        </button>
+        
+        <button type="button" class="btn btn-secondary" (click)="onReset()" [disabled]="!hasFilters">
+          <i class="fas fa-times"></i> Clear Filters
+        </button>
+      </div>
+    </form>
+  </section>
+
+  <!-- Search Results -->
+  <section class="search-results-section">
+    <div class="section-header">
+      <h2 class="section-title">
+        <i class="fas fa-list"></i> Search Results
+        <span class="badge">{{ totalResults }}</span>
+      </h2>
+      
+      <div class="search-stats" *ngIf="hasFilters">
+        <span class="stat-item">
+          <i class="fas fa-filter"></i> Filters Applied
+        </span>
+      </div>
+    </div>
+
+    <!-- Results Table -->
+    <div class="table-responsive" *ngIf="searchResults.length > 0">
+      <table class="search-results-table">
+        <thead>
+          <tr>
+            <th>Product ID</th>
+            <th>Product Name</th>
+            <th>Category</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th>Supplier</th>
+            <th>Stock Status</th>
+            <th>Hot</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let product of searchResults" [class.hot-product]="product.isHot === HotStatus.YES">
+            <td class="product-id">{{ product.id }}</td>
+            <td class="product-name">
+              <strong>{{ product.name }}</strong>
+              <small *ngIf="product.notes" class="product-notes">{{ product.notes }}</small>
+            </td>
+            <td class="product-category">{{ product.category }}</td>
+            <td class="product-quantity">{{ product.quantity }}</td>
+            <td class="product-price">¥{{ product.price.toFixed(2) }}</td>
+            <td class="product-supplier">{{ product.supplier }}</td>
+            <td class="product-stock-status">
+              <span class="status-badge" [class]="'status-' + (product.stockStatus === StockStatus.IN_STOCK ? 'in-stock' : 'out-of-stock')">
+                {{ product.stockStatus }}
+              </span>
+            </td>
+            <td class="product-hot">
+              <span class="hot-badge" *ngIf="product.isHot === HotStatus.YES">
+                <i class="fas fa-fire"></i> Hot
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- No Results Message -->
+    <div class="no-results" *ngIf="searchResults.length === 0">
+      <div class="no-results-content">
+        <i class="fas fa-search"></i>
+        <h3>No Matching Products Found</h3>
+        <p>Try adjusting your search criteria or clear filters to view all products.</p>
+        <button class="btn btn-secondary" (click)="onReset()">
+          <i class="fas fa-redo"></i> Show All Products
+        </button>
+      </div>
+    </div>
+
+    <!-- Search Statistics -->
+    <div class="search-statistics" *ngIf="searchResults.length > 0">
+      <div class="stat-card">
+        <i class="fas fa-box stat-icon"></i>
+        <div class="stat-content">
+          <h3>Products Found</h3>
+          <p class="stat-value">{{ totalResults }}</p>
+        </div>
+      </div>
+      
+      <div class="stat-card">
+        <i class="fas fa-fire stat-icon hot"></i>
+        <div class="stat-content">
+          <h3>Hot Products</h3>
+          <p class="stat-value">{{ getHotCount() }}</p>
+        </div>
+      </div>
+      
+      <div class="stat-card">
+        <i class="fas fa-check-circle stat-icon in-stock"></i>
+        <div class="stat-content">
+          <h3>In Stock</h3>
+          <p class="stat-value">{{ getInStockCount() }}</p>
+        </div>
+      </div>
+      
+      <div class="stat-card">
+        <i class="fas fa-dollar-sign stat-icon value"></i>
+        <div class="stat-content">
+          <h3>Average Price</h3>
+          <p class="stat-value">¥{{ getAveragePrice().toFixed(2) }}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

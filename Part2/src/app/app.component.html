@@ -1,0 +1,55 @@
+<!--
+  PROG2005 移动系统编程
+  第二部分：Angular库存管理系统
+  主组件模板
+  作者：霍子衡
+  学号：24832232
+  GitHub用户名：Hzh050514
+-->
+
+<div class="app-container">
+  <!-- 导航栏 -->
+  <app-navbar></app-navbar>
+
+  <!-- 主要内容区域 -->
+  <main class="main-content">
+    <div class="container">
+      <!-- 路由出口 -->
+      <router-outlet></router-outlet>
+    </div>
+  </main>
+
+  <!-- 页脚 -->
+  <footer class="app-footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h4>库存管理系统</h4>
+          <p>PROG2005 移动系统编程 - 第二部分</p>
+          <p>基于Angular框架的多页面应用程序</p>
+        </div>
+        
+        <div class="footer-section">
+          <h4>学生信息</h4>
+          <p><i class="fas fa-user"></i> {{ studentInfo.name }}</p>
+          <p><i class="fas fa-id-card"></i> {{ studentInfo.studentId }}</p>
+          <p><i class="fab fa-github"></i> {{ studentInfo.github }}</p>
+        </div>
+        
+        <div class="footer-section">
+          <h4>功能特性</h4>
+          <ul>
+            <li>添加/编辑/删除商品</li>
+            <li>高级搜索与筛选</li>
+            <li>隐私与安全分析</li>
+            <li>响应式设计</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="copyright">
+        <p>© 2026 霍子衡 - PROG2005 移动系统编程 | 所有功能均无需服务器端交互</p>
+      </div>
+    </div>
+  </footer>
+</div>

@@ -1,0 +1,417 @@
+/**
+ * PROG2005 移动系统编程
+ * 第二部分：Angular库存管理系统
+ * 主页组件样式
+ * 作者：霍子衡
+ * 学号：24832232
+ * GitHub用户名：Hzh050514
+ */
+
+.home-page {
+  padding: 20px 0;
+}
+
+// 欢迎横幅
+.welcome-banner {
+  background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+  color: white;
+  border-radius: 12px;
+  padding: 40px;
+  margin-bottom: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 30px;
+  box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+}
+
+.banner-content {
+  flex: 1;
+}
+
+.banner-title {
+  font-size: 2.2rem;
+  margin-bottom: 10px;
+  font-weight: 700;
+}
+
+.banner-subtitle {
+  font-size: 1.1rem;
+  opacity: 0.9;
+  margin-bottom: 15px;
+}
+
+.banner-description {
+  font-size: 1rem;
+  opacity: 0.8;
+  margin-bottom: 25px;
+  line-height: 1.6;
+}
+
+.banner-actions {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.banner-image {
+  font-size: 6rem;
+  opacity: 0.2;
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+// 系统概览
+.system-overview {
+  margin-bottom: 40px;
+}
+
+.section-title {
+  color: #2c3e50;
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  
+  i {
+    color: #3498db;
+  }
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.stat-card {
+  background: white;
+  border-radius: 8px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+  }
+}
+
+.stat-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  color: white;
+  
+  &.hot {
+    background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+  }
+  
+  &.in-stock {
+    background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+  }
+  
+  &.value {
+    background: linear-gradient(135deg, #f39c12 0%, #d68910 100%);
+  }
+}
+
+.stat-content {
+  flex: 1;
+}
+
+.stat-value {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #2c3e50;
+  margin: 0;
+}
+
+.stat-label {
+  color: #7f8c8d;
+  font-size: 0.9rem;
+  margin: 5px 0 0;
+}
+
+// 最近商品
+.recent-products {
+  margin-bottom: 40px;
+}
+
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.product-card {
+  background: white;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  border-left: 4px solid #3498db;
+  
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+  }
+}
+
+.product-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.product-name {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin: 0;
+}
+
+.product-id {
+  font-size: 0.8rem;
+  color: #7f8c8d;
+  background: #f8f9fa;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+.product-details {
+  display: grid;
+  gap: 8px;
+}
+
+.detail-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.detail-label {
+  color: #6c757d;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.detail-value {
+  color: #495057;
+  font-weight: 500;
+  
+  &.status-in-stock {
+    color: #27ae60;
+  }
+  
+  &.status-out-of-stock {
+    color: #e74c3c;
+  }
+}
+
+.product-actions {
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid #eee;
+}
+
+.btn-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 8px 15px;
+  background: #3498db;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+  
+  &:hover {
+    background: #2980b9;
+  }
+}
+
+// 功能特性
+.features-section {
+  margin-bottom: 40px;
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.feature-card {
+  background: white;
+  border-radius: 8px;
+  padding: 25px;
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+  }
+}
+
+.feature-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  color: white;
+  flex-shrink: 0;
+}
+
+.feature-content {
+  flex: 1;
+}
+
+.feature-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin: 0 0 8px;
+}
+
+.feature-description {
+  color: #6c757d;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin: 0;
+}
+
+// 技术栈
+.tech-stack {
+  margin-bottom: 40px;
+}
+
+.tech-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.tech-item {
+  background: white;
+  border-radius: 8px;
+  padding: 25px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+  }
+}
+
+.tech-icon {
+  font-size: 3rem;
+  margin-bottom: 15px;
+  
+  &.angular {
+    color: #dd0031;
+  }
+  
+  &.javascript {
+    color: #f7df1e;
+  }
+  
+  &.html {
+    color: #e34f26;
+  }
+  
+  &.css {
+    color: #1572b6;
+  }
+  
+  &.responsive {
+    color: #1abc9c;
+  }
+  
+  &.security {
+    color: #3498db;
+  }
+}
+
+.tech-item h3 {
+  font-size: 1.1rem;
+  color: #2c3e50;
+  margin: 0 0 10px;
+}
+
+.tech-item p {
+  color: #6c757d;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin: 0;
+}
+
+// 响应式设计
+@media (max-width: 768px) {
+  .welcome-banner {
+    flex-direction: column;
+    text-align: center;
+    padding: 30px 20px;
+  }
+  
+  .banner-actions {
+    justify-content: center;
+  }
+  
+  .banner-image {
+    font-size: 4rem;
+    order: -1;
+  }
+  
+  .products-grid,
+  .features-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .stats-grid,
+  .tech-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .banner-title {
+    font-size: 1.8rem;
+  }
+  
+  .stats-grid,
+  .tech-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .product-card,
+  .feature-card {
+    padding: 15px;
+  }
+}

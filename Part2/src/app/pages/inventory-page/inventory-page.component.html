@@ -1,0 +1,346 @@
+<!--
+  PROG2005 Mobile Systems Programming
+  Part 2: Angular Inventory Management System
+  Inventory Management Page Template
+  Author: Zihuo Huo
+  Student ID: 24832232
+  GitHub Username: Hzh050514
+-->
+
+<div class="inventory-page">
+  <!-- Page Header -->
+  <div class="page-header">
+    <h1><i class="fas fa-boxes"></i> Inventory Management</h1>
+    <p class="page-description">Add, edit, and delete inventory products. All data is maintained in session state.</p>
+  </div>
+
+  <!-- Message Display -->
+  <div class="message-container" *ngIf="message">
+      <div class="alert" [class]="'alert-' + message?.type">
+        <i [class]="message?.type === 'success' ? 'fas fa-check-circle' : message?.type === 'error' ? 'fas fa-exclamation-circle' : 'fas fa-info-circle'"></i>
+        {{ message?.text }}
+      </div>
+  </div>
+
+  <!-- Inventory Overview -->
+  <div class="inventory-overview">
+    <div class="overview-card">
+      <i class="fas fa-box overview-icon"></i>
+      <div class="overview-content">
+        <h3>Total Products</h3>
+        <p class="overview-value">{{ products.length }}</p>
+      </div>
+    </div>
+    
+    <div class="overview-card">
+      <i class="fas fa-fire overview-icon hot"></i>
+      <div class="overview-content">
+        <h3>Hot Products</h3>
+        <p class="overview-value">{{ getHotProducts().length }}</p>
+      </div>
+    </div>
+    
+    <div class="overview-card">
+      <i class="fas fa-cubes overview-icon"></i>
+      <div class="overview-content">
+        <h3>Total Quantity</h3>
+        <p class="overview-value">{{ totalQuantity }}</p>
+      </div>
+    </div>
+    
+    <div class="overview-card">
+      <i class="fas fa-dollar-sign overview-icon value"></i>
+      <div class="overview-content">
+        <h3>Total Value</h3>
+        <p class="overview-value">¥{{ totalValue.toFixed(2) }}</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Product Form -->
+  <section class="product-form-section card">
+    <h2 class="section-title">
+      <i class="fas" [class]="isEditing ? 'fa-edit' : 'fa-plus-circle'"></i>
+      {{ isEditing ? 'Edit Product' : 'Add New Product' }}
+    </h2>
+    
+    <form [formGroup]="productForm" (ngSubmit)="onSubmit()">
+      <div class="form-grid">
+        <!-- Product ID -->
+        <div class="form-group">
+          <label for="productId" class="form-label">Product ID *</label>
+          <input
+            type="text"
+            id="productId"
+            formControlName="id"
+            class="form-control"
+            placeholder="Enter unique product ID"
+            [class.is-invalid]="productForm.get('id')?.invalid && productForm.get('id')?.touched"
+            [readonly]="isEditing"
+          >
+          <div class="invalid-feedback" *ngIf="productForm.get('id')?.invalid && productForm.get('id')?.touched">
+            Product ID is required and can only contain letters, numbers, hyphens and underscores
+          </div>
+        </div>
+
+        <!-- Product Name -->
+        <div class="form-group">
+          <label for="productName" class="form-label">Product Name *</label>
+          <input
+            type="text"
+            id="productName"
+            formControlName="name"
+            class="form-control"
+            placeholder="Enter product name"
+            [class.is-invalid]="productForm.get('name')?.invalid && productForm.get('name')?.touched"
+          >
+          <div class="invalid-feedback" *ngIf="productForm.get('name')?.invalid && productForm.get('name')?.touched">
+            Product name must be at least 2 characters
+          </div>
+        </div>
+
+        <!-- Category -->
+        <div class="form-group">
+          <label for="productCategory" class="form-label">Category *</label>
+          <select
+            id="productCategory"
+            formControlName="category"
+            class="form-control"
+            [class.is-invalid]="productForm.get('category')?.invalid && productForm.get('category')?.touched"
+          >
+            <option value="">Select category</option>
+            <option *ngFor="let category of categories" [value]="category.value">
+              {{ category.label }}
+            </option>
+          </select>
+          <div class="invalid-feedback" *ngIf="productForm.get('category')?.invalid && productForm.get('category')?.touched">
+            Please select product category
+          </div>
+        </div>
+
+        <!-- Quantity -->
+        <div class="form-group">
+          <label for="productQuantity" class="form-label">Quantity *</label>
+          <input
+            type="number"
+            id="productQuantity"
+            formControlName="quantity"
+            class="form-control"
+            min="0"
+            [class.is-invalid]="productForm.get('quantity')?.invalid && productForm.get('quantity')?.touched"
+          >
+          <div class="invalid-feedback" *ngIf="productForm.get('quantity')?.invalid && productForm.get('quantity')?.touched">
+            Quantity cannot be negative
+          </div>
+        </div>
+
+        <!-- Price -->
+        <div class="form-group">
+          <label for="productPrice" class="form-label">Price *</label>
+          <input
+            type="number"
+            id="productPrice"
+            formControlName="price"
+            class="form-control"
+            min="0"
+            step="0.01"
+            [class.is-invalid]="productForm.get('price')?.invalid && productForm.get('price')?.touched"
+          >
+          <div class="invalid-feedback" *ngIf="productForm.get('price')?.invalid && productForm.get('price')?.touched">
+            Price cannot be negative
+          </div>
+        </div>
+
+        <!-- Supplier -->
+        <div class="form-group">
+          <label for="productSupplier" class="form-label">Supplier *</label>
+          <input
+            type="text"
+            id="productSupplier"
+            formControlName="supplier"
+            class="form-control"
+            placeholder="Enter supplier name"
+            [class.is-invalid]="productForm.get('supplier')?.invalid && productForm.get('supplier')?.touched"
+          >
+          <div class="invalid-feedback" *ngIf="productForm.get('supplier')?.invalid && productForm.get('supplier')?.touched">
+            Supplier name is required
+          </div>
+        </div>
+
+        <!-- Stock Status -->
+        <div class="form-group">
+          <label for="productStockStatus" class="form-label">Stock Status *</label>
+          <select
+            id="productStockStatus"
+            formControlName="stockStatus"
+            class="form-control"
+            [class.is-invalid]="productForm.get('stockStatus')?.invalid && productForm.get('stockStatus')?.touched"
+          >
+            <option value="">Select status</option>
+            <option *ngFor="let status of stockStatuses" [value]="status.value">
+              {{ status.label }}
+            </option>
+          </select>
+          <div class="invalid-feedback" *ngIf="productForm.get('stockStatus')?.invalid && productForm.get('stockStatus')?.touched">
+            Please select stock status
+          </div>
+        </div>
+
+        <!-- Hot Status -->
+        <div class="form-group">
+          <label for="productIsHot" class="form-label">Hot Product</label>
+          <select
+            id="productIsHot"
+            formControlName="isHot"
+            class="form-control"
+          >
+            <option *ngFor="let status of hotStatuses" [value]="status.value">
+              {{ status.label }}
+            </option>
+          </select>
+        </div>
+
+        <!-- Notes -->
+        <div class="form-group full-width">
+          <label for="productNotes" class="form-label">Product Notes</label>
+          <textarea
+            id="productNotes"
+            formControlName="notes"
+            class="form-control"
+            rows="3"
+            placeholder="Enter product notes (optional)"
+          ></textarea>
+        </div>
+      </div>
+
+      <!-- Form Buttons -->
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary" [disabled]="productForm.invalid">
+          <i class="fas" [class]="isEditing ? 'fa-save' : 'fa-plus-circle'"></i>
+          {{ isEditing ? 'Save Changes' : 'Add Product' }}
+        </button>
+        
+        <button type="button" class="btn btn-secondary" (click)="resetForm()" *ngIf="isEditing">
+          <i class="fas fa-times"></i> Cancel Edit
+        </button>
+        
+        <button type="button" class="btn btn-warning" (click)="onReset()">
+          <i class="fas fa-redo"></i> Reset Data
+        </button>
+      </div>
+    </form>
+  </section>
+
+  <!-- Product List -->
+  <section class="product-list-section">
+    <div class="section-header">
+      <h2 class="section-title">
+        <i class="fas fa-list"></i> Product List
+        <span class="badge">{{ products.length }}</span>
+      </h2>
+      
+      <div class="section-actions">
+        <button class="btn btn-info" (click)="loadProducts()">
+          <i class="fas fa-sync-alt"></i> Refresh List
+        </button>
+      </div>
+    </div>
+
+    <!-- Product Table -->
+    <div class="table-responsive">
+      <table class="product-table">
+        <thead>
+          <tr>
+            <th>Product ID</th>
+            <th>Product Name</th>
+            <th>Category</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th>Supplier</th>
+            <th>Stock Status</th>
+            <th>Hot</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let product of products" [class.hot-product]="product.isHot === HotStatus.YES">
+            <td class="product-id">{{ product.id }}</td>
+            <td class="product-name">
+              <strong>{{ product.name }}</strong>
+              <small *ngIf="product.notes" class="product-notes">{{ product.notes }}</small>
+            </td>
+            <td class="product-category">{{ product.category }}</td>
+            <td class="product-quantity">{{ product.quantity }}</td>
+            <td class="product-price">¥{{ product.price.toFixed(2) }}</td>
+            <td class="product-supplier">{{ product.supplier }}</td>
+            <td class="product-stock-status">
+              <span class="status-badge" [class]="'status-' + (product.stockStatus === StockStatus.IN_STOCK ? 'in-stock' : 'out-of-stock')">
+                {{ product.stockStatus }}
+              </span>
+            </td>
+            <td class="product-hot">
+              <span class="hot-badge" *ngIf="product.isHot === HotStatus.YES">
+                <i class="fas fa-fire"></i> Hot
+              </span>
+            </td>
+            <td class="product-actions">
+              <button class="btn-action edit" (click)="onEdit(product)">
+                <i class="fas fa-edit"></i> Edit
+              </button>
+              <button class="btn-action delete" (click)="onDelete(product.id)">
+                <i class="fas fa-trash-alt"></i> Delete
+              </button>
+            </td>
+          </tr>
+          
+          <tr *ngIf="products.length === 0">
+            <td colspan="9" class="empty-message">
+              <i class="fas fa-box-open"></i>
+              <p>No product data available, please add products</p>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Hot Products -->
+  <section class="hot-products-section" *ngIf="getHotProducts().length > 0">
+    <h2 class="section-title">
+      <i class="fas fa-fire"></i> Hot Products
+      <span class="badge">{{ getHotProducts().length }}</span>
+    </h2>
+    
+    <div class="hot-products-grid">
+      <div class="hot-product-card" *ngFor="let product of getHotProducts()">
+        <div class="hot-product-header">
+          <h3>{{ product.name }}</h3>
+          <span class="hot-badge">
+            <i class="fas fa-fire"></i> Hot
+          </span>
+        </div>
+        
+        <div class="hot-product-details">
+          <div class="detail">
+            <span class="label">ID:</span>
+            <span class="value">{{ product.id }}</span>
+          </div>
+          <div class="detail">
+            <span class="label">Price:</span>
+            <span class="value">¥{{ product.price.toFixed(2) }}</span>
+          </div>
+          <div class="detail">
+            <span class="label">Stock:</span>
+            <span class="value">{{ product.quantity }}</span>
+          </div>
+        </div>
+        
+        <div class="hot-product-actions">
+          <button class="btn-action" (click)="onEdit(product)">
+            <i class="fas fa-edit"></i> Edit
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

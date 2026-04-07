@@ -1,0 +1,130 @@
+<!--
+  PROG2005 Mobile Systems Programming
+  Part 2: Angular Inventory Management System
+  Help Page Template
+  Author: Zihuo Huo
+  Student ID: 24832232
+  GitHub Username: Hzh050514
+-->
+
+<div class="help-page">
+  <!-- Page Header -->
+  <div class="page-header">
+    <h1><i class="fas fa-question-circle"></i> Help Center</h1>
+    <p class="page-description">Frequently Asked Questions, troubleshooting guides, and usage tips.</p>
+  </div>
+
+  <!-- Frequently Asked Questions -->
+  <section class="faq-section card">
+    <h2 class="section-title">
+      <i class="fas fa-question"></i> Frequently Asked Questions (FAQ)
+    </h2>
+    
+    <div class="faq-list">
+      <div class="faq-item" *ngFor="let faq of faqs">
+        <div class="faq-question">
+          <i [class]="faq.icon" class="faq-icon"></i>
+          <h3>{{ faq.question }}</h3>
+        </div>
+        <div class="faq-answer">
+          <p>{{ faq.answer }}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Troubleshooting -->
+  <section class="troubleshooting-section card">
+    <h2 class="section-title">
+      <i class="fas fa-tools"></i> Troubleshooting Guide
+    </h2>
+    
+    <div class="troubleshooting-list">
+      <div class="trouble-item" *ngFor="let trouble of troubleshooting">
+        <div class="trouble-header">
+          <h3>{{ trouble.issue }}</h3>
+        </div>
+        <div class="trouble-content">
+          <div class="cause">
+            <h4><i class="fas fa-exclamation-triangle"></i> Possible Cause</h4>
+            <p>{{ trouble.cause }}</p>
+          </div>
+          <div class="solution">
+            <h4><i class="fas fa-check-circle"></i> Solution</h4>
+            <p>{{ trouble.solution }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Usage Tips -->
+  <section class="tips-section card">
+    <h2 class="section-title">
+      <i class="fas fa-lightbulb"></i> Usage Tips
+    </h2>
+    
+    <div class="tips-grid">
+      <div class="tip-card" *ngFor="let tip of tips; let i = index">
+        <div class="tip-number">{{ i + 1 }}</div>
+        <div class="tip-content">
+          <p>{{ tip }}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Information -->
+  <section class="contact-section card">
+    <h2 class="section-title">
+      <i class="fas fa-info-circle"></i> Contact Information
+    </h2>
+    
+    <div class="contact-info">
+      <div class="info-item">
+        <i class="fas fa-user"></i>
+        <div class="info-content">
+          <h3>Student Name</h3>
+          <p>{{ contactInfo.student }}</p>
+        </div>
+      </div>
+      
+      <div class="info-item">
+        <i class="fas fa-id-card"></i>
+        <div class="info-content">
+          <h3>Student ID</h3>
+          <p>{{ contactInfo.studentId }}</p>
+        </div>
+      </div>
+      
+      <div class="info-item">
+        <i class="fas fa-graduation-cap"></i>
+        <div class="info-content">
+          <h3>Course</h3>
+          <p>{{ contactInfo.course }}</p>
+        </div>
+      </div>
+      
+      <div class="info-item">
+        <i class="fas fa-file-alt"></i>
+        <div class="info-content">
+          <h3>Assignment</h3>
+          <p>{{ contactInfo.assignment }}</p>
+        </div>
+      </div>
+      
+      <div class="info-item">
+        <i class="fab fa-github"></i>
+        <div class="info-content">
+          <h3>GitHub</h3>
+          <p>{{ contactInfo.github }}</p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="note">
+      <i class="fas fa-sticky-note"></i>
+      <p>{{ contactInfo.note }}</p>
+    </div>
+  </section>
+</div>

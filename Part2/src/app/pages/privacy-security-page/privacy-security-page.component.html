@@ -1,0 +1,154 @@
+<!--
+  PROG2005 Mobile Systems Programming
+  Part 2: Angular Inventory Management System
+  Privacy & Security Page Template
+  Author: Zihuo Huo
+  Student ID: 24832232
+  GitHub Username: Hzh050514
+-->
+
+<div class="privacy-security-page">
+  <!-- Page Header -->
+  <div class="page-header">
+    <h1><i class="fas fa-shield-alt"></i> Privacy & Security Analysis</h1>
+    <p class="page-description">Detailed security considerations and mobile application-specific privacy and security requirements.</p>
+  </div>
+
+  <!-- Security Considerations -->
+  <section class="security-considerations-section card">
+    <h2 class="section-title">
+      <i class="fas fa-lock"></i> Security Considerations
+    </h2>
+    
+    <div class="considerations-grid">
+      <div class="consideration-card" *ngFor="let consideration of securityConsiderations">
+        <div class="consideration-icon" [style.background-color]="consideration.color">
+          <i [class]="consideration.icon"></i>
+        </div>
+        <div class="consideration-content">
+          <h3>{{ consideration.title }}</h3>
+          <p>{{ consideration.description }}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Mobile Application Security Requirements -->
+  <section class="mobile-security-section card">
+    <h2 class="section-title">
+      <i class="fas fa-mobile-alt"></i> Mobile Application Security Requirements
+    </h2>
+    
+    <div class="requirements-table">
+      <table>
+        <thead>
+          <tr>
+            <th>Security Requirement</th>
+            <th>Requirement Description</th>
+            <th>Implementation in This App</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let requirement of mobileSecurityRequirements">
+            <td class="requirement-title">{{ requirement.title }}</td>
+            <td class="requirement-desc">{{ requirement.requirement }}</td>
+            <td class="requirement-impl">{{ requirement.implementation }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Best Practices -->
+  <section class="best-practices-section card">
+    <h2 class="section-title">
+      <i class="fas fa-star"></i> Security Best Practices
+    </h2>
+    
+    <div class="practices-list">
+      <div class="practice-item" *ngFor="let practice of bestPractices; let i = index">
+        <div class="practice-number">{{ i + 1 }}</div>
+        <div class="practice-content">
+          <p>{{ practice }}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Technical Implementation -->
+  <section class="implementation-section card">
+    <h2 class="section-title">
+      <i class="fas fa-code"></i> Technical Implementation Details
+    </h2>
+    
+    <div class="implementation-details">
+      <div class="detail-card">
+        <h3><i class="fas fa-check-circle"></i> Data Security Implementation</h3>
+        <ul>
+          <li>All data stored in browser memory, not persisted to server</li>
+          <li>Data automatically cleared after session ends</li>
+          <li>Strict data validation and input sanitization</li>
+          <li>Uniqueness constraints prevent data inconsistencies</li>
+        </ul>
+      </div>
+      
+      <div class="detail-card">
+        <h3><i class="fas fa-user-shield"></i> User Protection Mechanisms</h3>
+        <ul>
+          <li>Delete operations require explicit user confirmation</li>
+          <li>Friendly error messages without exposing technical details</li>
+          <li>Real-time form validation to prevent invalid data</li>
+          <li>Mobile-friendly security interaction design</li>
+        </ul>
+      </div>
+      
+      <div class="detail-card">
+        <h3><i class="fas fa-file-code"></i> Code Security Measures</h3>
+        <ul>
+          <li>TypeScript strong type checking</li>
+          <li>Angular built-in security features</li>
+          <li>Modular code structure for easy auditing</li>
+          <li>Adequate code comments and documentation</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Summary -->
+  <section class="summary-section card">
+    <h2 class="section-title">
+      <i class="fas fa-clipboard-check"></i> Security Summary
+    </h2>
+    
+    <div class="summary-content">
+      <p>This inventory management system follows best security practices for mobile application development, ensuring data security and user privacy through:</p>
+      
+      <div class="summary-points">
+        <div class="point">
+          <i class="fas fa-check"></i>
+          <span>Client-side data storage to avoid server-side security risks</span>
+        </div>
+        <div class="point">
+          <i class="fas fa-check"></i>
+          <span>Strict data validation and input sanitization</span>
+        </div>
+        <div class="point">
+          <i class="fas fa-check"></i>
+          <span>User confirmation mechanisms to prevent accidental operations</span>
+        </div>
+        <div class="point">
+          <i class="fas fa-check"></i>
+          <span>Responsive design to adapt to mobile device security needs</span>
+        </div>
+        <div class="point">
+          <i class="fas fa-check"></i>
+          <span>Code-level security checks and type safety</span>
+        </div>
+      </div>
+      
+      <div class="conclusion">
+        <p>By comprehensively applying these security measures, this system provides a secure and reliable inventory management solution that complies with mobile application development security standards and requirements.</p>
+      </div>
+    </div>
+  </section>
+</div>

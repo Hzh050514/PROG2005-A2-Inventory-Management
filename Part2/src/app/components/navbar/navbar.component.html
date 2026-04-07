@@ -1,0 +1,56 @@
+<!--
+  PROG2005 Mobile Systems Programming
+  Part 2: Angular Inventory Management System
+  Navbar Component Template
+  Author: Zihuo Huo
+  Student ID: 24832232
+  GitHub Username: Hzh050514
+-->
+
+<nav class="navbar">
+  <div class="container">
+    <!-- Brand Logo -->
+    <div class="navbar-brand">
+      <a routerLink="/home" class="brand-link">
+        <i class="fas fa-boxes brand-icon"></i>
+        <div class="brand-text">
+          <h1 class="brand-title">Inventory Management System</h1>
+          <p class="brand-subtitle">PROG2005 - Angular Version</p>
+        </div>
+      </a>
+    </div>
+
+    <!-- Mobile Menu Button -->
+    <button class="menu-toggle" (click)="toggleMenu()" [class.active]="isMenuOpen" aria-label="Toggle Menu">
+      <span class="menu-toggle-line"></span>
+      <span class="menu-toggle-line"></span>
+      <span class="menu-toggle-line"></span>
+    </button>
+
+    <!-- Navigation Menu -->
+    <div class="navbar-menu" [class.active]="isMenuOpen">
+      <ul class="nav-list">
+        <li class="nav-item" *ngFor="let item of navItems" (click)="closeMenu()">
+          <a [routerLink]="item.path" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-link">
+            <i [class]="item.icon" class="nav-icon"></i>
+            <div class="nav-content">
+              <span class="nav-label">{{ item.label }}</span>
+              <span class="nav-description">{{ item.description }}</span>
+            </div>
+          </a>
+        </li>
+      </ul>
+
+      <!-- User Information -->
+      <div class="user-info">
+        <div class="user-avatar">
+          <i class="fas fa-user-graduate"></i>
+        </div>
+        <div class="user-details">
+          <p class="user-name">Zihuo Huo</p>
+          <p class="user-id">Student ID: 24832232</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
